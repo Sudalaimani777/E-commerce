@@ -1,28 +1,15 @@
 <template>
   <v-card height="100%" class="d-flex flex-column">
     <div class="text-center pa-4 flex-grow-0">
-      <v-img
-        :src="product.image"
-        :alt="product.title"
-        height="200"
-        contain
-        class="bg-grey-lighten-3"
-      ></v-img>
+      <v-img :src="product.image" :alt="product.title" height="200" contain class="bg-grey-lighten-3"></v-img>
     </div>
 
     <v-card-title class="text-truncate">{{ product.title }}</v-card-title>
 
     <v-card-text class="flex-grow-1">
       <div class="d-flex align-center mb-2">
-        <v-rating
-          v-if="product.rating"
-          :model-value="product.rating.rate"
-          color="amber"
-          density="compact"
-          half-increments
-          readonly
-          size="small"
-        ></v-rating>
+        <v-rating v-if="product.rating" :model-value="product.rating.rate" color="amber" density="compact"
+          half-increments readonly size="small"></v-rating>
         <span class="text-grey-darken-1 text-caption ms-2" v-if="product.rating">
           ({{ product.rating.count }})
         </span>
@@ -32,27 +19,14 @@
     </v-card-text>
 
     <v-card-actions class="flex-grow-0">
-      <v-btn
-        variant="text"
-        color="primary"
-        :to="`/product/${product.id}`"
-        prepend-icon="mdi-information"
-      >
+      <v-btn variant="text" color="primary" :to="`/product/${product.id}`" prepend-icon="mdi-information">
         Details
       </v-btn>
       <v-spacer></v-spacer>
-      <v-btn
-        icon
-        :color="isFavorite ? 'red' : undefined"
-        @click="toggleFavorite"
-      >
+      <v-btn icon :color="isFavorite ? 'red' : undefined" @click="toggleFavorite">
         <v-icon>{{ isFavorite ? 'mdi-heart' : 'mdi-heart-outline' }}</v-icon>
       </v-btn>
-      <v-btn
-        icon
-        color="primary"
-        @click="addToCart"
-      >
+      <v-btn icon color="primary" @click="addToCart">
         <v-icon>mdi-cart-plus</v-icon>
       </v-btn>
     </v-card-actions>
@@ -87,7 +61,9 @@ function toggleFavorite() {
 .text-truncate-2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>
