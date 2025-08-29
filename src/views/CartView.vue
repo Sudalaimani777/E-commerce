@@ -141,7 +141,7 @@ async function submitCheckout() {
     showConfetti.value = true;
     setTimeout(() => {
       showConfetti.value = false;
-    }, 2000); // Hide after 2 seconds
+    }, 6000); // Hide after 6 seconds
   }
 }
 </script>
