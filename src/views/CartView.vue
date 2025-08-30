@@ -3,7 +3,49 @@
     <ConfettiExplosion v-if="showConfetti" :force="0.8" />
     <h1 class="text-h4 mb-6">Shopping Cart</h1>
 
-    <v-alert v-if="cart.items.length === 0" color="info" icon="mdi-cart-outline">
+    <!-- Order Success Animation -->
+    <div v-if="orderPlaced && cart.items.length === 0" class="order-success-container">
+      <v-card class="order-success-card mx-auto" max-width="500" elevation="8">
+        <v-card-text class="text-center pa-8">
+          <div class="success-icon-container mb-6">
+            <v-icon class="success-icon" color="success" size="80">mdi-check-circle</v-icon>
+            <div class="success-ripple"></div>
+          </div>
+
+          <h2 class="text-h4 font-weight-bold success-title mb-4">Order Placed Successfully!</h2>
+
+          <p class="text-h6 text-medium-emphasis mb-6 success-subtitle">
+            🎉 Thank you for your purchase! Your order has been confirmed and is being processed.
+          </p>
+
+          <div class="order-details mb-6">
+            <v-chip class="ma-1" color="success" variant="outlined">
+              <v-icon start>mdi-email</v-icon>
+              Confirmation sent
+            </v-chip>
+            <v-chip class="ma-1" color="primary" variant="outlined">
+              <v-icon start>mdi-truck-delivery</v-icon>
+              Processing order
+            </v-chip>
+          </div>
+
+          <div class="action-buttons">
+            <v-btn color="primary" size="large" variant="elevated" prepend-icon="mdi-home" @click="goHome"
+              class="mr-4 continue-btn">
+              Continue Shopping
+            </v-btn>
+
+            <v-btn color="success" size="large" variant="outlined" prepend-icon="mdi-receipt" @click="viewOrder"
+              class="order-btn">
+              View Order
+            </v-btn>
+          </div>
+        </v-card-text>
+      </v-card>
+    </div>
+
+    <!-- Empty Cart Message (when no order placed) -->
+    <v-alert v-else-if="cart.items.length === 0 && !orderPlaced" color="info" icon="mdi-cart-outline">
       Your cart is empty. <router-link to="/">Continue shopping</router-link>
     </v-alert>
 
@@ -95,6 +137,7 @@ const checkoutForm = ref({
 const checkoutFormRef = ref();
 const valid = ref(false);
 const showConfetti = ref(false);
+const orderPlaced = ref(false);
 
 function openCheckoutModal() {
   checkoutForm.value = {
@@ -124,7 +167,7 @@ function increaseQuantity(productId: number) {
 
 function removeItem(productId: number) {
   cart.removeFromCart(productId);
-}b
+}
 
 function clearCart() {
   cart.clearCart();
@@ -136,12 +179,191 @@ function closeCheckoutModal() {
 
 async function submitCheckout() {
   if (checkoutFormRef.value && checkoutFormRef.value.validate()) {
-    cart.clearCart();
     closeCheckoutModal();
     showConfetti.value = true;
+    orderPlaced.value = true;
+    cart.clearCart();
+
+    // Hide confetti after animation
     setTimeout(() => {
       showConfetti.value = false;
-    }, 6000); // Hide after 6 seconds
+    }, 4000);
   }
 }
+
+function goHome() {
+  orderPlaced.value = false;
+  window.location.href = '/';
+}
+
+function viewOrder() {
+  orderPlaced.value = false;
+  // You can implement order tracking functionality here
+  alert('Order tracking feature coming soon!');
+}
 </script>
+
+<style scoped>
+.order-success-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.order-success-card {
+  border-radius: 16px !important;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  position: relative;
+  overflow: visible;
+}
+
+.success-icon-container {
+  position: relative;
+  display: inline-block;
+}
+
+.success-icon {
+  animation: bounceIn 1s ease-out, pulse 2s infinite 1s;
+  position: relative;
+  z-index: 2;
+}
+
+.success-ripple {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80px;
+  height: 80px;
+  border: 3px solid #4caf50;
+  border-radius: 50%;
+  animation: ripple 2s infinite;
+  opacity: 0;
+}
+
+.success-title {
+  color: #2e7d32;
+  animation: slideInUp 0.8s ease-out 0.3s both;
+}
+
+.success-subtitle {
+  animation: slideInUp 0.8s ease-out 0.5s both;
+}
+
+.order-details {
+  animation: slideInUp 0.8s ease-out 0.7s both;
+}
+
+.action-buttons {
+  animation: slideInUp 0.8s ease-out 0.9s both;
+}
+
+.continue-btn,
+.order-btn {
+  transition: all 0.3s ease;
+  border-radius: 25px !important;
+}
+
+.order-btn {
+  margin-top : 20px;
+}
+
+.continue-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(25, 118, 210, 0.3);
+}
+
+.order-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(76, 175, 80, 0.3);
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+
+  70% {
+    transform: scale(0.9);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes ripple {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(2.5);
+    opacity: 0;
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+  .order-success-card {
+    margin: 0 16px;
+  }
+
+  .action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .continue-btn {
+    margin-right: 0 !important;
+  }
+}
+</style>
