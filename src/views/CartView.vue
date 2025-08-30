@@ -124,7 +124,7 @@ function increaseQuantity(productId: number) {
 
 function removeItem(productId: number) {
   cart.removeFromCart(productId);
-}
+}b
 
 function clearCart() {
   cart.clearCart();
