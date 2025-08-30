@@ -4,14 +4,22 @@
 
     <!-- Empty Favorites State -->
     <div v-if="favorites.items.length === 0" class="empty-favorites-container">
-      <v-card class="empty-favorites-card mx-auto" max-width="500" elevation="4">
+      <v-card
+        class="empty-favorites-card mx-auto"
+        max-width="500"
+        elevation="4"
+      >
         <v-card-text class="text-center pa-8">
           <div class="heart-icon-container mb-6">
-            <v-icon class="heart-icon" color="pink-lighten-1" size="100">mdi-heart-outline</v-icon>
+            <v-icon class="heart-icon" color="pink-lighten-1" size="100"
+              >mdi-heart-outline</v-icon
+            >
             <div class="heart-pulse"></div>
           </div>
 
-          <h2 class="text-h4 font-weight-bold empty-title mb-4">No Favorites Yet</h2>
+          <h2 class="text-h4 font-weight-bold empty-title mb-4">
+            No Favorites Yet
+          </h2>
 
           <p class="text-h6 text-medium-emphasis mb-6 empty-subtitle">
             💝 Start building your wishlist by adding products you love!
@@ -33,8 +41,14 @@
           </div>
 
           <div class="action-section">
-            <v-btn color="primary" size="large" variant="elevated" prepend-icon="mdi-storefront" to="/"
-              class="browse-btn">
+            <v-btn
+              color="primary"
+              size="large"
+              variant="elevated"
+              prepend-icon="mdi-storefront"
+              to="/"
+              class="browse-btn"
+            >
               Browse Products
             </v-btn>
 
@@ -47,7 +61,14 @@
     </div>
 
     <v-row v-else>
-      <v-col v-for="product in favorites.items" :key="product.id" cols="12" sm="6" md="4" lg="3">
+      <v-col
+        v-for="product in favorites.items"
+        :key="product.id"
+        cols="12"
+        sm="6"
+        md="4"
+        lg="3"
+      >
         <ProductCard :product="product" />
       </v-col>
     </v-row>
@@ -55,8 +76,8 @@
 </template>
 
 <script setup lang="ts">
-import { useFavoritesStore } from '@/stores/favorites';
-import ProductCard from '@/components/ProductCard.vue';
+import { useFavoritesStore } from "@/stores/favorites";
+import ProductCard from "@/components/ProductCard.vue";
 
 const favorites = useFavoritesStore();
 </script>
@@ -144,7 +165,6 @@ const favorites = useFavoritesStore();
 }
 
 @keyframes heartBeat {
-
   0%,
   100% {
     transform: scale(1);

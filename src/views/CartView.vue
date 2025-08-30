@@ -45,9 +45,54 @@
     </div>
 
     <!-- Empty Cart Message (when no order placed) -->
-    <v-alert v-else-if="cart.items.length === 0 && !orderPlaced" color="info" icon="mdi-cart-outline">
-      Your cart is empty. <router-link to="/">Continue shopping</router-link>
-    </v-alert>
+    <div v-else-if="cart.items.length === 0 && !orderPlaced" class="empty-cart-container">
+      <v-card class="empty-cart-card mx-auto" max-width="500" elevation="4">
+        <v-card-text class="text-center pa-8">
+          <div class="cart-icon-container mb-6">
+            <v-icon class="cart-icon" color="blue-lighten-1" size="100">mdi-cart-outline</v-icon>
+            <div class="cart-bounce"></div>
+          </div>
+          
+          <h2 class="text-h4 font-weight-bold empty-title mb-4">Your Cart is Empty</h2>
+          
+          <p class="text-h6 text-medium-emphasis mb-6 empty-subtitle">
+            🛍️ Ready to find something amazing? Start shopping now!
+          </p>
+          
+          <div class="features-list mb-6">
+            <v-chip class="ma-1" color="blue" variant="outlined" size="small">
+              <v-icon start size="small">mdi-flash</v-icon>
+              Fast delivery
+            </v-chip>
+            <v-chip class="ma-1" color="green" variant="outlined" size="small">
+              <v-icon start size="small">mdi-shield-check</v-icon>
+              Secure checkout
+            </v-chip>
+            <v-chip class="ma-1" color="orange" variant="outlined" size="small">
+              <v-icon start size="small">mdi-percent</v-icon>
+              Great deals
+            </v-chip>
+          </div>
+          
+          <div class="action-section">
+            <v-btn
+              color="primary"
+              size="large"
+              variant="elevated"
+              prepend-icon="mdi-storefront"
+              to="/"
+              class="shop-btn"
+            >
+              Start Shopping
+            </v-btn>
+            
+            <p class="text-caption mt-4 text-medium-emphasis">
+              Browse our collection of amazing products
+            </p>
+          </div>
+        </v-card-text>
+      </v-card>
+    </div>
 
     <template v-else>
       <v-list lines="three">
@@ -364,6 +409,119 @@ function viewOrder() {
 
   .continue-btn {
     margin-right: 0 !important;
+  }
+}
+
+/* Empty Cart Styles */
+.empty-cart-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.empty-cart-card {
+  border-radius: 16px !important;
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 50%, #90caf9 100%);
+  position: relative;
+  overflow: visible;
+  border: 1px solid rgba(25, 118, 210, 0.1);
+}
+
+.cart-icon-container {
+  position: relative;
+  display: inline-block;
+}
+
+.cart-icon {
+  animation: cartBounce 2s ease-in-out infinite;
+  position: relative;
+  z-index: 2;
+}
+
+.cart-bounce {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100px;
+  height: 100px;
+  border: 2px solid #1976d2;
+  border-radius: 50%;
+  animation: cartRipple 3s infinite;
+  opacity: 0;
+}
+
+.empty-cart-card .empty-title {
+  color: #1565c0;
+  animation: slideInUp 0.8s ease-out 0.3s both;
+}
+
+.empty-cart-card .empty-subtitle {
+  animation: slideInUp 0.8s ease-out 0.5s both;
+}
+
+.empty-cart-card .features-list {
+  animation: slideInUp 0.8s ease-out 0.7s both;
+}
+
+.empty-cart-card .action-section {
+  animation: slideInUp 0.8s ease-out 0.9s both;
+}
+
+.shop-btn {
+  transition: all 0.3s ease;
+  border-radius: 25px !important;
+  background: linear-gradient(45deg, #1976d2, #1565c0) !important;
+}
+
+.shop-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(25, 118, 210, 0.4);
+}
+
+/* Empty Cart Animations */
+@keyframes cartBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes cartRipple {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2.5);
+    opacity: 0;
+  }
+}
+
+/* Additional responsive design for empty cart */
+@media (max-width: 600px) {
+  .empty-cart-card {
+    margin: 0 16px;
+  }
+  
+  .cart-icon {
+    font-size: 80px !important;
+  }
+  
+  .cart-bounce {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .empty-cart-card .features-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
   }
 }
 </style>
