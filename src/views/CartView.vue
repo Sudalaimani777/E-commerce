@@ -52,13 +52,13 @@
             <v-icon class="cart-icon" color="blue-lighten-1" size="100">mdi-cart-outline</v-icon>
             <div class="cart-bounce"></div>
           </div>
-          
+
           <h2 class="text-h4 font-weight-bold empty-title mb-4">Your Cart is Empty</h2>
-          
+
           <p class="text-h6 text-medium-emphasis mb-6 empty-subtitle">
             🛍️ Ready to find something amazing? Start shopping now!
           </p>
-          
+
           <div class="features-list mb-6">
             <v-chip class="ma-1" color="blue" variant="outlined" size="small">
               <v-icon start size="small">mdi-flash</v-icon>
@@ -73,19 +73,13 @@
               Great deals
             </v-chip>
           </div>
-          
+
           <div class="action-section">
-            <v-btn
-              color="primary"
-              size="large"
-              variant="elevated"
-              prepend-icon="mdi-storefront"
-              to="/"
-              class="shop-btn"
-            >
+            <v-btn color="primary" size="large" variant="elevated" prepend-icon="mdi-storefront" to="/"
+              class="shop-btn">
               Start Shopping
             </v-btn>
-            
+
             <p class="text-caption mt-4 text-medium-emphasis">
               Browse our collection of amazing products
             </p>
@@ -312,7 +306,7 @@ function viewOrder() {
 }
 
 .order-btn {
-  margin-top : 20px;
+  margin-top: 20px;
 }
 
 .continue-btn:hover {
@@ -483,9 +477,12 @@ function viewOrder() {
 
 /* Empty Cart Animations */
 @keyframes cartBounce {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-10px);
   }
@@ -496,6 +493,7 @@ function viewOrder() {
     transform: translate(-50%, -50%) scale(0);
     opacity: 1;
   }
+
   100% {
     transform: translate(-50%, -50%) scale(2.5);
     opacity: 0;
@@ -507,16 +505,16 @@ function viewOrder() {
   .empty-cart-card {
     margin: 0 16px;
   }
-  
+
   .cart-icon {
     font-size: 80px !important;
   }
-  
+
   .cart-bounce {
     width: 80px;
     height: 80px;
   }
-  
+
   .empty-cart-card .features-list {
     display: flex;
     flex-direction: column;
