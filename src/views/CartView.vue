@@ -1,6 +1,17 @@
 <template>
   <div>
-    <ConfettiExplosion v-if="showConfetti" :force="0.8" />
+    <!-- Left side confetti -->
+    <ConfettiExplosion v-if="showConfetti" :force="0.8" :stageHeight="1000" :stageWidth="1000" :particleCount="150"
+      class="confetti-left" />
+
+    <!-- Right side confetti -->
+    <ConfettiExplosion v-if="showConfetti" :force="0.8" :stageHeight="1000" :stageWidth="1000" :particleCount="150"
+      class="confetti-right" />
+
+    <!-- Center confetti -->
+    <ConfettiExplosion v-if="showConfetti" :force="1.0" :stageHeight="1000" :stageWidth="1000" :particleCount="100"
+      class="confetti-center" />
+
     <h1 class="text-h4 mb-6">Shopping Cart</h1>
 
     <!-- Order Success Animation -->
@@ -520,6 +531,43 @@ function viewOrder() {
     flex-direction: column;
     align-items: center;
     gap: 8px;
+  }
+}
+
+/* Confetti Positioning */
+.confetti-left {
+  position: fixed;
+  top: 0;
+  left: -20%;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.confetti-right {
+  position: fixed;
+  top: 0;
+  right: -20%;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.confetti-center {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  pointer-events: none;
+}
+
+/* Mobile confetti adjustments */
+@media (max-width: 600px) {
+  .confetti-left {
+    left: -30%;
+  }
+
+  .confetti-right {
+    right: -30%;
   }
 }
 </style>
