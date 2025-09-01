@@ -38,7 +38,7 @@
             </v-chip>
         </div>
 
-        <!-- Offline/Error State -->
+        <!-- Offline or Error State -->
         <div v-if="productStore.error && !productStore.loading" class="offline-container">
             <v-card class="offline-card mx-auto" max-width="600" elevation="6">
                 <v-card-text class="text-center pa-8">
@@ -134,16 +134,16 @@ const searchQuery = ref('');
 const selectedCategory = ref('');
 
 const categories = ref([
-    'electronics',
-    'jewelery',
-    'men\'s clothing',
-    'women\'s clothing'
+    'Electronics',
+    'Jewelery',
+    'Men\'s clothing',
+    'Women\'s clothing'
 ]);
 
 const filteredProducts = computed(() => {
     let filtered = productStore.products;
 
-    // Filter by search query
+    // Filter by search :-
     if (searchQuery.value) {
         filtered = filtered.filter(product =>
             product.title.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
@@ -151,7 +151,7 @@ const filteredProducts = computed(() => {
         );
     }
 
-    // Filter by category
+    // Filter by category :-
     if (selectedCategory.value) {
         filtered = filtered.filter(product =>
             product.category.toLowerCase() === selectedCategory.value.toLowerCase()
@@ -395,7 +395,7 @@ function clearFilters() {
     }
 }
 
-/* Responsive design */
+/* Responsiveness */
 @media (max-width: 600px) {
 
     .offline-card,
