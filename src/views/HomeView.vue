@@ -2,7 +2,7 @@
   <div>
     <h1 class="text-h4 mb-6 text-center">Welcome to Our Store</h1>
 
-    <!-- Hero Carousel -->
+    <!-- Carousel -->
     <div class="carousel-container mb-8">
       <swiper
         :modules="modules"
@@ -11,7 +11,7 @@
         :loop="true"
         :autoplay="{
           delay: 4000,
-          disableOnInteraction: false,
+          disableOnInteraction: true,
         }"
         :navigation="true"
         :pagination="{ clickable: true }"
@@ -164,7 +164,7 @@ const isRetrying = ref(false);
 
 const modules = [Navigation, Pagination, Autoplay, EffectCoverflow];
 
-// Carousel slides data
+// Carousel Data :-
 const carouselSlides = ref([
   {
     id: 1,
