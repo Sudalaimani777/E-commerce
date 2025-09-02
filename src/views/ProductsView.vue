@@ -12,27 +12,12 @@
       <v-card-text>
         <v-row align="center">
           <v-col cols="12" md="8">
-            <v-text-field
-              v-model="searchQuery"
-              label="Search products..."
-              prepend-inner-icon="mdi-magnify"
-              variant="outlined"
-              density="compact"
-              clearable
-              hide-details
-            ></v-text-field>
+            <v-text-field v-model="searchQuery" label="Search products..." prepend-inner-icon="mdi-magnify"
+              variant="outlined" density="compact" clearable hide-details></v-text-field>
           </v-col>
           <v-col cols="12" md="4">
-            <v-select
-              v-model="selectedCategory"
-              :items="categories"
-              label="Category"
-              prepend-inner-icon="mdi-tag"
-              variant="outlined"
-              density="compact"
-              clearable
-              hide-details
-            ></v-select>
+            <v-select v-model="selectedCategory" :items="categories" label="Category" prepend-inner-icon="mdi-tag"
+              variant="outlined" density="compact" clearable hide-details></v-select>
           </v-col>
         </v-row>
       </v-card-text>
@@ -55,16 +40,11 @@
     </div>
 
     <!-- Offline or Error State -->
-    <div
-      v-if="productStore.error && !productStore.loading"
-      class="offline-container"
-    >
+    <div v-if="productStore.error && !productStore.loading" class="offline-container">
       <v-card class="offline-card mx-auto" max-width="600" elevation="6">
         <v-card-text class="text-center pa-8">
           <div class="error-icon-container mb-6">
-            <v-icon class="error-icon" color="orange-darken-2" size="120"
-              >mdi-wifi-off</v-icon
-            >
+            <v-icon class="error-icon" color="orange-darken-2" size="120">mdi-wifi-off</v-icon>
             <div class="error-pulse"></div>
           </div>
 
@@ -92,15 +72,8 @@
           </div>
 
           <div class="action-section">
-            <v-btn
-              color="primary"
-              size="large"
-              variant="elevated"
-              prepend-icon="mdi-refresh"
-              @click="retryConnection"
-              :loading="isRetrying"
-              class="retry-btn"
-            >
+            <v-btn color="primary" size="large" variant="elevated" prepend-icon="mdi-refresh" @click="retryConnection"
+              :loading="isRetrying" class="retry-btn">
               {{ isRetrying ? "Connecting..." : "Try Again" }}
             </v-btn>
           </div>
@@ -112,11 +85,7 @@
     <div v-else-if="productStore.loading" class="loading-section">
       <v-row>
         <v-col v-for="i in 8" :key="i" cols="12" sm="6" md="4" lg="3">
-          <v-skeleton-loader
-            type="card"
-            class="mb-4"
-            elevation="2"
-          ></v-skeleton-loader>
+          <v-skeleton-loader type="card" class="mb-4" elevation="2"></v-skeleton-loader>
         </v-col>
       </v-row>
     </div>
@@ -124,14 +93,7 @@
     <!-- Products Grid -->
     <div v-else-if="filteredProducts.length > 0">
       <v-row>
-        <v-col
-          v-for="product in filteredProducts"
-          :key="product.id"
-          cols="12"
-          sm="6"
-          md="4"
-          lg="3"
-        >
+        <v-col v-for="product in filteredProducts" :key="product.id" cols="12" sm="6" md="4" lg="3">
           <ProductCard :product="product" />
         </v-col>
       </v-row>
@@ -142,9 +104,7 @@
       <v-card class="no-products-card mx-auto" max-width="500" elevation="4">
         <v-card-text class="text-center pa-8">
           <div class="search-icon-container mb-6">
-            <v-icon class="search-icon" color="grey-darken-1" size="100"
-              >mdi-package-variant-closed</v-icon
-            >
+            <v-icon class="search-icon" color="grey-darken-1" size="100">mdi-package-variant-closed</v-icon>
             <div class="search-pulse"></div>
           </div>
 
@@ -157,13 +117,8 @@
           </p>
 
           <div class="action-section">
-            <v-btn
-              color="primary"
-              variant="outlined"
-              prepend-icon="mdi-refresh"
-              @click="clearFilters"
-              class="clear-btn"
-            >
+            <v-btn color="primary" variant="outlined" prepend-icon="mdi-refresh" @click="clearFilters"
+              class="clear-btn">
               Clear Filters
             </v-btn>
           </div>
@@ -174,10 +129,12 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, computed } from "vue";
+import { onMounted, ref, computed, watch } from "vue";
+import { useRoute } from "vue-router";
 import { useProductStore } from "@/stores/products";
 import ProductCard from "@/components/ProductCard.vue";
 
+const route = useRoute();
 const productStore = useProductStore();
 const isRetrying = ref(false);
 const searchQuery = ref("");
@@ -215,8 +172,24 @@ const filteredProducts = computed(() => {
   return filtered;
 });
 
+// Watch for route query changes to set category filter
+watch(() => route.query.category, (newCategory) => {
+  if (newCategory && typeof newCategory === 'string') {
+    selectedCategory.value = categories.value.find(cat =>
+      cat.toLowerCase() === newCategory.toLowerCase()
+    ) || '';
+  }
+}, { immediate: true });
+
 onMounted(async () => {
   await productStore.fetchProducts();
+
+  // Set initial category from route query
+  if (route.query.category && typeof route.query.category === 'string') {
+    selectedCategory.value = categories.value.find(cat =>
+      cat.toLowerCase() === (route.query.category as string).toLowerCase()
+    ) || '';
+  }
 });
 
 async function retryConnection() {
@@ -388,6 +361,7 @@ function clearFilters() {
 }
 
 @keyframes wifiPulse {
+
   0%,
   100% {
     transform: scale(1);
@@ -401,6 +375,7 @@ function clearFilters() {
 }
 
 @keyframes searchBounce {
+
   0%,
   100% {
     transform: translateY(0);
@@ -449,6 +424,7 @@ function clearFilters() {
 
 /* Responsiveness */
 @media (max-width: 600px) {
+
   .offline-card,
   .no-products-card {
     margin: 0 16px;
